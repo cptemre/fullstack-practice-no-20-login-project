@@ -1,0 +1,124 @@
+:root {
+  --bgColor: rgb(169, 75, 75);
+  --bgHover: rgb(162, 47, 47);
+  --inputBg: rgb(210, 186, 174);
+  --btnBg: rgb(112, 16, 16);
+  --btnHover: rgb(137, 71, 71);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(189, 184, 184);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+div,
+form,
+input {
+  width: 100%;
+  height: 100%;
+}
+div,
+form {
+  display: grid;
+  place-items: center;
+}
+input,
+button {
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  padding: 2px 4px;
+  transition: 0.2s;
+}
+
+form {
+  transform: scale(0);
+  transition: 0.45s;
+  transform-origin: top;
+}
+
+input {
+  background-color: var(--inputBg);
+  border: 2px solid transparent;
+}
+
+button {
+  background-color: var(--btnBg);
+  letter-spacing: 1px;
+  border: 1px solid white;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--btnHover);
+}
+
+#main {
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 3rem;
+  margin: 0 auto;
+  width: 90vw;
+}
+
+.formDiv {
+  grid-template-rows: 20vh 1fr 10vh;
+  background-color: var(--bgColor);
+  height: 20vh;
+  min-width: 15rem;
+  width: 100%;
+  border-radius: 1rem;
+  border: 2px solid rgb(15, 5, 5);
+  transition: 0.5s;
+}
+
+.inputDiv {
+  position: relative;
+  height: 1.5rem;
+}
+
+.label,
+input {
+  position: absolute;
+  width: 80%;
+}
+
+.label {
+  z-index: 1;
+  justify-items: flex-start;
+  top: -1.3rem;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  letter-spacing: 1px;
+  transition: 0.2s;
+}
+
+.msg {
+  background-color: white;
+  width: 100%;
+  text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+  #main {
+    grid-template-columns: 1fr;
+  }
+}
