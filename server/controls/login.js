@@ -1,29 +1,20 @@
 const Users = require("../models/users");
 const jwt = require("jsonwebtoken");
+
 const login = async (req, res) => {
   try {
-    const authHeader = req.headers.authorization
-
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw new Error
-    }
-
-    const token = authHeader.split(' ')[1]
-
+    // GET BODY
     const { email, password } = req.body;
+    // GET USER
     const user = await Users.findOne({ email });
-    const decode = jwt.verify(token, process.env.JWT_SECRET);
-    if (
-      user.email === email &&
-      user.password === password &&
-      email === decode.email &&
-      user.id === decode.id
-    ) {
-      console.log('Okay');
-    }
-    
-    console.log(decode);
-    res.send(decode);
+    // USER ID
+    const id = user._id
+    // CREATE ACCESS TOKEN
+    const access_token = jwt.sign({ email, id }, process.env.ACCESS_SECRET, {
+      expiresIn: "15m",
+    });
+    // RES ACCESS TOKEN TO CLIENT
+    res.status(200).json({msg: 'logged_in', access_token});
   } catch (error) {
     console.log(error);
   }

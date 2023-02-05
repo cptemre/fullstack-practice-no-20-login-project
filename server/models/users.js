@@ -15,6 +15,9 @@ const Users = new mongoose.Schema({
     minLength: [7, "password_min_error"],
     maxLength: [40, "password_max_error"],
   },
+  refresh_token: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("Users", Users);
