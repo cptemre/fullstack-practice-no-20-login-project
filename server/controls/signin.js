@@ -9,15 +9,16 @@ const sigin = async (req, res) => {
     const { email, password } = req.body;
     const users = await Users.find({ email });
     if (users.length) {
-      res.json({ msg: "user_exists" });
+      res.status(200).json({ msg: "user_exists" });
     } else {
       if (validator.isEmail(email)) {
         await Users.create({ email, password });
         const user = await Users.findOne({ email })
-        console.log(user._id);
-        res.json({ msg: "user_created" });
+        const id = user._id
+        const token = jwt.sign({ email, id }, process.env.JWT_SECRET, { expiresIn: '2d' })
+        res.status(200).json({ msg: "user_created", token });
       }
-      res.json({ msg: "address_error" });
+      res.status(400).json({ msg: "address_error" });
     }
   } catch (error) {
     badrequestError(error);

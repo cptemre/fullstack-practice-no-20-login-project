@@ -20,11 +20,11 @@ const notFound = require("./errors/notFound");
 const errorHandler = require("./middleware/errorHandler");
 
 // ROUTES
-const signin = require("./routes/signin");
+const router = require("./routes/router");
 
 app.use(express.json());
 
-app.use("/api/v1", signin);
+app.use("/api/v1", router);
 app.use(errorHandler);
 
 const start = async () => {
