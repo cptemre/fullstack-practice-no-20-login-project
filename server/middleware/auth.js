@@ -13,32 +13,30 @@ const auth = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await Users.findOne({ email });
-    // USER ID
-    const id = user._id;
     if (email !== user.email) {
-      throw new AuthError({ msg: "email_wrong" });
+      throw new AuthError("email_wrong");
     }
     if (password != user.password) {
-      throw new AuthError({ msg: "password_wrong" });
+      throw new AuthError("password_wrong");
     }
 
-    jwt.verify(token, process.env.ACCESS_SECRET, async (err) => {
-      if (err) {
-        throw new AuthError({ msg: "auth_error" });
+    // VERIFY ACCESS TOKEN
+    jwt.verify(token, process.env.ACCESS_SECRET, (err) => {
+      if (!err) {
+        next();
       } else {
-        // CREATE NEW REFRESH TOKEN
-        const refresh_token = jwt.sign(
-          { email, id },
-          process.env.REFRESH_SECRET
-        );
-        // UPDATE USER WITH REFRESH TOKEN
-        await Users.findOneAndUpdate({ email }, { refresh_token });
+        jwt.verify(token, process.env.REFRESH_SECRET, (err) => {
+          if (!err) {
+            next();
+          } else {
+            res.status(401).json({ msg: "login_required" });
+          }
+        });
       }
     });
-    next();
   } catch (error) {
-    console.log(error.errors);
-    throw new AuthError({ msg: "auth_error" });
+    console.log(error);
+    throw new AuthError("login_error");
   }
 };
 
