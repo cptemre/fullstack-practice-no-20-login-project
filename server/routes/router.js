@@ -10,7 +10,7 @@ const auth = require("../middleware/auth");
 const generateToken = require("../middleware/generateToken");
 
 router.route("/signin").post(signin);
-router.route("/login").get(login);
+router.route("/login").post(login);
 router.route("/test").get(auth, generateToken, test);
 
 module.exports = router;

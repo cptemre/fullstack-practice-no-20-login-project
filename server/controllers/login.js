@@ -1,27 +1,31 @@
 const Users = require("../models/users");
 const createAccessToken = require("./createAccessToken");
-const createRefreshToken = require("./createRefreshToken");
+const { AuthError, BadRequest } = require("../errors");
 
 const login = async (req, res) => {
   try {
     // GET BODY
-    const { email } = req.body;
+    const { email, password } = req.body;
     // GET USER
     const user = await Users.findOne({ email });
+    // CHECK EMAIL AND PASSWORD
+    if (email !== user.email) {
+      throw new AuthError("WRONG EMAIL");
+    }
+    if (password != user.password) {
+      throw new AuthError("WRONG PASSWORD");
+    }
     // USER ID
     const id = user._id;
     // CREATE ACCESS TOKEN
     const access_token = createAccessToken(email, id);
-    // CREATE NEW REFRESH TOKEN
-    const refresh_token = createRefreshToken(email, id);
-    // UPDATE USER WITH REFRESH TOKEN
-    await user.update({ refresh_token });
     // RES ACCESS TOKEN TO CLIENT
     res
       .status(200)
-      .json({ msg: "tokens_created", access_token, refresh_token });
+      .json({ msg: "SUCCESSFULLY LOGGED IN", token: access_token });
   } catch (error) {
-    res.status(403).json({ msg: req.user });
+    console.log(error);
+    throw new BadRequest("LOGIN FAILED");
   }
 };
 

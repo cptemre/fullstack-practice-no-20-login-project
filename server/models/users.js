@@ -4,19 +4,17 @@ const Users = new mongoose.Schema({
   email: {
     type: String,
     trim: true,
-    unique: [true, "unique_error"],
-    required: [true, "required_error"],
-    minLength: [7, "email_min_error"],
-    maxLength: [50, "email_max_error"],
+    unique: [true, "EMAIL EXISTS"],
+    required: [true, "EMAIL IS REQUIRED"],
+    minLength: [7, "EMAIL MUST CONTAIN AT LEAST 7 CHARACTERS"],
+    maxLength: [40, "EMAIL MUST CONTAIN MAX 40 CHARACTERS"],
   },
   password: {
     type: String,
     trim: true,
-    minLength: [7, "password_min_error"],
-    maxLength: [40, "password_max_error"],
-  },
-  refresh_token: {
-    type: String,
+    required: [true, "PASSWORD IS REQUIRED"],
+    minLength: [7, "PASSWORD MUST CONTAIN AT LEAST 7 CHARACTERS"],
+    maxLength: [40, "PASSWORD MUST CONTAIN MAX 40 CHARACTERS"],
   },
 });
 
