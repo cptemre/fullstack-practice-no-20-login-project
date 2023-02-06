@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import $ from "jquery";
 import axios from "axios";
 import validator from "validator";
-
 import InputDiv from "./InputDiv";
 import { Context } from "./Context";
 import { inputData } from "../data/inputData";
@@ -10,7 +9,7 @@ const LogIn = ({ props }) => {
   const { id, header, success } = props;
   const [data, setData] = useState([]);
   const [msg, setMsg] = useState("");
-  const { state, dispatch } = useContext(Context);
+  const { dispatch } = useContext(Context);
   useEffect(() => {
     setData(inputData);
   }, []);
@@ -68,6 +67,7 @@ const LogIn = ({ props }) => {
             password,
           });
           setMsg(data["msg"]);
+          // SEND TOKEN TO STATE TO SAVE
           dispatch({type:'TOKEN', payload: data['token']})
         }
       }
